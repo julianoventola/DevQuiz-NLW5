@@ -7,10 +7,12 @@ class AppBarWidget extends PreferredSize {
   AppBarWidget(context)
       : super(
           preferredSize: Size.fromHeight(MediaQuery.of(context).padding.top +
-              MediaQuery.of(context).size.height * 0.30),
+              MediaQuery.of(context).size.height * 0.08 +
+              MediaQuery.of(context).size.height * 0.21),
           child: Container(
             height: MediaQuery.of(context).padding.top +
-                MediaQuery.of(context).size.height * 0.30,
+                MediaQuery.of(context).size.height * 0.08 +
+                MediaQuery.of(context).size.height * 0.21,
             child: Stack(
               children: [
                 Container(
@@ -34,8 +36,8 @@ class AppBarWidget extends PreferredSize {
                             ]),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.12,
-                        height: MediaQuery.of(context).size.width * 0.12,
+                        width: MediaQuery.of(context).size.height * 0.08,
+                        height: MediaQuery.of(context).size.height * 0.08,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
