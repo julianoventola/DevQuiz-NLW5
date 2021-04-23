@@ -20,11 +20,8 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   void initState() {
     super.initState();
-    controller.currentPageNotifier.addListener(() {
-      setState(() {});
-    });
     pageController.addListener(() {
-      controller.currentPage = pageController.page!.toInt();
+      controller.currentPage = pageController.page!.toInt() + 1;
     });
   }
 
@@ -34,12 +31,18 @@ class _ChallengePageState extends State<ChallengePage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: SafeArea(
-            child: QuestionIndicatorWidget(
-          currentPage: controller.currentPage,
-          lenght: widget.questions.length,
-        )),
+          child: ValueListenableBuilder<int>(
+              valueListenable: controller.currentPageNotifier,
+              builder: (context, value, _) {
+                return QuestionIndicatorWidget(
+                  currentPage: value,
+                  lenght: widget.questions.length,
+                );
+              }),
+        ),
       ),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         children: widget.questions
             .map((question) => QuizWidget(
@@ -57,7 +60,12 @@ class _ChallengePageState extends State<ChallengePage> {
               Expanded(
                 child: NextButtonWidget.white(
                   label: 'Pular',
-                  onTap: () {},
+                  onTap: () {
+                    pageController.nextPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.linear,
+                    );
+                  },
                 ),
               ),
               SizedBox(
