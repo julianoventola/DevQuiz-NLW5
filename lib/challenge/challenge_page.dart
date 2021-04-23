@@ -1,3 +1,4 @@
+import 'package:devquiz/challenge/challenge_controller.dart';
 import 'package:devquiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:devquiz/challenge/widgets/question_indicator/question_indicator_widget.dart';
 import 'package:devquiz/challenge/widgets/quiz/quiz_widget.dart';
@@ -13,14 +14,39 @@ class ChallengePage extends StatefulWidget {
 }
 
 class _ChallengePageState extends State<ChallengePage> {
+  final controller = ChallengeController();
+  final pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.currentPageNotifier.addListener(() {
+      setState(() {});
+    });
+    pageController.addListener(() {
+      controller.currentPage = pageController.page!.toInt();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: SafeArea(child: QuestionIndicatorWidget()),
+        child: SafeArea(
+            child: QuestionIndicatorWidget(
+          currentPage: controller.currentPage,
+          lenght: widget.questions.length,
+        )),
       ),
-      body: QuizWidget(question: widget.questions[0]),
+      body: PageView(
+        controller: pageController,
+        children: widget.questions
+            .map((question) => QuizWidget(
+                  question: question,
+                ))
+            .toList(),
+      ),
       bottomNavigationBar: SafeArea(
         bottom: true,
         child: Container(
