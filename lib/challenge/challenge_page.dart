@@ -59,12 +59,9 @@ class _ChallengePageState extends State<ChallengePage> {
             children: [
               Expanded(
                 child: NextButtonWidget.white(
-                  label: 'Pular',
+                  label: 'Cancelar',
                   onTap: () {
-                    pageController.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.linear,
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -74,7 +71,16 @@ class _ChallengePageState extends State<ChallengePage> {
               Expanded(
                 child: NextButtonWidget.green(
                   label: 'Confirmar',
-                  onTap: () {},
+                  onTap: () {
+                    if (controller.currentPage < widget.questions.length) {
+                      pageController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.linear,
+                      );
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
                 ),
               ),
             ],
