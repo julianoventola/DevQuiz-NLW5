@@ -1,11 +1,22 @@
+import 'package:devquiz/challenge/challenge_controller.dart';
 import 'package:devquiz/challenge/widgets/next_button/next_button_widget.dart';
 import 'package:devquiz/core/app_images.dart';
 import 'package:devquiz/core/app_text_styles.dart';
+import 'package:devquiz/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+  final String title;
+  final int length;
+  final ChallengeController challengerController;
+
+  const ResultPage({
+    Key? key,
+    required this.title,
+    required this.length,
+    required this.challengerController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +44,10 @@ class ResultPage extends StatelessWidget {
                     text: 'Você concluiu\n',
                     style: AppTextStyles.body,
                     children: [
+                      TextSpan(text: '$title\n', style: AppTextStyles.bodyBold),
                       TextSpan(
-                          text: '"VARIAVEL"\n', style: AppTextStyles.bodyBold),
-                      TextSpan(text: 'com x de y acertos')
+                          text:
+                              'acertando ${challengerController.correctAnswers} de $length questões')
                     ]),
                 textAlign: TextAlign.center,
               ),
@@ -51,7 +63,12 @@ class ResultPage extends StatelessWidget {
                 height: 8,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  }));
+                },
                 child: Text(
                   'Voltar ao início',
                   style: GoogleFonts.notoSans(

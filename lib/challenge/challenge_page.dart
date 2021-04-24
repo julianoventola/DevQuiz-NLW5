@@ -8,7 +8,13 @@ import 'package:flutter/material.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<QuestionModel> questions;
-  ChallengePage({Key? key, required this.questions}) : super(key: key);
+  final String title;
+
+  ChallengePage({
+    Key? key,
+    required this.questions,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _ChallengePageState createState() => _ChallengePageState();
@@ -48,6 +54,7 @@ class _ChallengePageState extends State<ChallengePage> {
         children: widget.questions
             .map((question) => QuizWidget(
                   question: question,
+                  challengerController: controller,
                 ))
             .toList(),
       ),
@@ -79,9 +86,13 @@ class _ChallengePageState extends State<ChallengePage> {
                         curve: Curves.linear,
                       );
                     } else {
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
-                        return ResultPage();
+                        return ResultPage(
+                          title: widget.title,
+                          length: widget.questions.length,
+                          challengerController: controller,
+                        );
                       }));
                     }
                   },

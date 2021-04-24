@@ -1,3 +1,4 @@
+import 'package:devquiz/challenge/challenge_controller.dart';
 import 'package:devquiz/challenge/widgets/answer/answer_widget.dart';
 import 'package:devquiz/core/app_text_styles.dart';
 import 'package:devquiz/shared/models/question_model.dart';
@@ -5,7 +6,13 @@ import 'package:flutter/material.dart';
 
 class QuizWidget extends StatefulWidget {
   final QuestionModel question;
-  const QuizWidget({Key? key, required this.question}) : super(key: key);
+  final ChallengeController challengerController;
+
+  const QuizWidget({
+    Key? key,
+    required this.question,
+    required this.challengerController,
+  }) : super(key: key);
 
   @override
   _QuizWidgetState createState() => _QuizWidgetState();
@@ -35,6 +42,9 @@ class _QuizWidgetState extends State<QuizWidget> {
               isSelected: indexSelected == i,
               onTap: () {
                 indexSelected = i;
+                if (widget.question.answers[i].isRight) {
+                  widget.challengerController.correctAnswers++;
+                }
                 setState(() {});
               },
             ),
