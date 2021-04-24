@@ -5,6 +5,7 @@ import 'package:devquiz/core/app_text_styles.dart';
 import 'package:devquiz/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ResultPage extends StatelessWidget {
   final String title;
@@ -57,7 +58,11 @@ class ResultPage extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: NextButtonWidget.purple(
-                    label: 'Compartilhar', onTap: () {}),
+                    label: 'Compartilhar',
+                    onTap: () {
+                      Share.share(
+                          'Finalizado $title com ${challengerController.correctAnswers} acerto(s)!');
+                    }),
               ),
               SizedBox(
                 height: 8,
